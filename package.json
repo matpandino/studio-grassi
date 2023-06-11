@@ -12,6 +12,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.20.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "4.15.0",
