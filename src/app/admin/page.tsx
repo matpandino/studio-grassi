@@ -1,13 +1,16 @@
-import { currentUser } from "@clerk/nextjs";
-import React from "react";
+import { Suspense } from "react";
+import ProductList from "./productList";
+import Link from "next/link";
 
-const page = async () => {
-    const user = await currentUser();
-
+const page = () => {
   return (
     <div>
+      <Link href="/admin/new">New Product</Link>
+
       <div>page</div>
-      {JSON.stringify(user, null, 2)}
+      <Suspense fallback="loading">
+        <ProductList />
+      </Suspense>
     </div>
   );
 };

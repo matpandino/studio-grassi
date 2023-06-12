@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-white`}>
-        <Header />
+        <Header rightElement='Contato' />
         {children}
       </body>
     </html>

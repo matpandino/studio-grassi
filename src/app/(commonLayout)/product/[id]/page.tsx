@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import ImageGallery from "@/app/components/ImageGallery";
+import ImageGallery from "@/app/(commonLayout)/components/products/ImageGallery";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 

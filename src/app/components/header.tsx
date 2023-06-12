@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -11,7 +11,11 @@ const navigation = [
   { name: "Sobre Nós", href: "#" },
 ];
 
-const Header = () => {
+interface HeaderProps {
+  rightElement: ReactElement | string;
+}
+
+const Header: FC<HeaderProps> = ({ rightElement }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -52,9 +56,7 @@ const Header = () => {
           />
         </Link>
         <div className="flex flex-1 justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Contato
-          </a>
+          {rightElement}
         </div>
       </nav>
       <Dialog
