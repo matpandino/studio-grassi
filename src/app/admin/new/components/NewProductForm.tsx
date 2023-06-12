@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
-  // description: z.string().min(1, "Name is required").max(500),
+  description: z.string().min(1, "Name is required").max(500),
   price: z.string().nullish(),
   quantity: z.string().nullish(),
 });
@@ -29,13 +29,6 @@ export default function NewProductForm() {
 
   const onSubmit: SubmitHandler<ProductFormType> = async (data) => {
     try {
-      console.log("data", {
-        ...data,
-        price: data.price ? parseInt(data.price) : 0,
-        quantity: data.quantity ? parseInt(data.quantity) : 0,
-      });
-      console.log("adding...");
-
       await fetch("/api/products", {
         method: "POST",
         body: JSON.stringify({
@@ -44,8 +37,6 @@ export default function NewProductForm() {
           quantity: data.quantity ? parseInt(data.quantity) : 0,
         }),
       });
-
-      console.log("added?...");
 
       router.push("/admin");
     } catch (e) {

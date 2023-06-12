@@ -49,11 +49,11 @@ export default async function Product({ params }: ProductPageParams) {
             </div>
 
             <div className="mt-6">
-              <h3 className="sr-only">Description</h3>
+              <h3 className="sr-only">{product.description}</h3>
 
               <div
                 className="space-y-6 text-base text-gray-700"
-                dangerouslySetInnerHTML={{ __html: "description" }}
+                dangerouslySetInnerHTML={{ __html: product.description }}
               />
             </div>
 
