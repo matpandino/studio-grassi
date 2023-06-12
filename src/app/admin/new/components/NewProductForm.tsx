@@ -1,9 +1,35 @@
+"use client";
+
 import { Price, Input, TextArea } from "@/components/Inputs";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100),
+  description: z.string().min(1, "Name is required").max(500),
+  price: z.string().nullish(),
+  quantity: z.string().nullish(),
+});
+
+export type ProductFormType = z.infer<typeof formSchema>;
 
 export default function NewProductForm() {
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<ProductFormType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit: SubmitHandler<ProductFormType> = (data) => {
+    console.log(data);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
@@ -17,27 +43,40 @@ export default function NewProductForm() {
 
           <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
             <div className="sm:col-span-4">
-              <Input id="name" name="name" labelContent="Nome" />
+              <Input
+                name="name"
+                label="Nome"
+                control={control}
+                error={errors.name}
+              />
             </div>
 
             <div className="col-span-full">
-              <TextArea
-                id="description"
+              <Input
                 name="description"
-                labelContent="Descrição"
+                label="Descrição"
+                control={control}
+                error={errors.description}
               />
             </div>
 
             <div className="sm:col-span-3">
-              <Price id="price" name="price" labelContent="Preço" />
+              <Input
+                name="price"
+                type="number"
+                label="Preço"
+                control={control}
+                error={errors.price}
+              />
             </div>
 
             <div className="sm:col-span-3">
               <Input
-                id="quantity"
                 name="quantity"
-                labelContent="Quantidade"
                 type="number"
+                label="Quantidade"
+                control={control}
+                error={errors.quantity}
               />
             </div>
           </div>
