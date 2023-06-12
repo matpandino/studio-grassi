@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ProductList from "./productList";
+import ProductList from "./components/ProductList";
 import Link from "next/link";
 
 const page = () => {

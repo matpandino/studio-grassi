@@ -8,7 +8,7 @@ import Link from "next/link";
 const navigation = [
   { name: "Tattoo", href: "#" },
   { name: "Piercing / Joias", href: "#" },
-  { name: "Sobre Nós", href: "#" },
+  { name: "Admin", href: "/admin" },
 ];
 
 interface HeaderProps {
