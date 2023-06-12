@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const navigation = [
   { name: "Tattoo", href: "#" },
@@ -42,14 +43,14 @@ const Header = () => {
             </button>
           </div>
         </div>
-        <a href="#" className="-m-1.5 p-1.5">
+        <Link href="/" className="-m-1.5 p-1.5">
           <span className="sr-only">Your Company</span>
           <img
             className="h-8 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt=""
           />
-        </a>
+        </Link>
         <div className="flex flex-1 justify-end">
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
             Contato

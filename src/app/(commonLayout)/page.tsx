@@ -1,5 +1,4 @@
-import { prisma } from "@/lib/prisma";
-import ProductList from "./components/products/productList";
+import ProductList from "../components/products/productList";
 import { Suspense } from "react";
 
 export default function Home() {
