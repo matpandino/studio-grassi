@@ -3,12 +3,13 @@
 import { Price, Input, TextArea } from "@/components/Inputs";
 
 import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
-  description: z.string().min(1, "Name is required").max(500),
+  // description: z.string().min(1, "Name is required").max(500),
   price: z.string().nullish(),
   quantity: z.string().nullish(),
 });
@@ -16,6 +17,8 @@ const formSchema = z.object({
 export type ProductFormType = z.infer<typeof formSchema>;
 
 export default function NewProductForm() {
+  const router = useRouter();
+
   const {
     control,
     formState: { errors },
@@ -24,8 +27,30 @@ export default function NewProductForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<ProductFormType> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<ProductFormType> = async (data) => {
+    try {
+      console.log("data", {
+        ...data,
+        price: data.price ? parseInt(data.price) : 0,
+        quantity: data.quantity ? parseInt(data.quantity) : 0,
+      });
+      console.log("adding...");
+
+      await fetch("/api/products", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+          price: data.price ? parseInt(data.price) : 0,
+          quantity: data.quantity ? parseInt(data.quantity) : 0,
+        }),
+      });
+
+      console.log("added?...");
+
+      router.push("/admin");
+    } catch (e) {
+      console.log("error ", e);
+    }
   };
 
   return (
