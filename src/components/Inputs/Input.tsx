@@ -1,65 +1,50 @@
-import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
-import { FC, ReactNode } from "react";
+import { ReactNode, InputHTMLAttributes } from "react";
+import {
+  Controller,
+  FieldError,
+  FieldValues,
+  UseControllerProps,
+} from "react-hook-form";
 
-interface InputProps {
-  name: string;
-  id: string;
-  type?: string;
-  labelContent?: ReactNode | string;
-  placeHolder?: string;
-  defaultValue?: string;
-  showError?: boolean;
-  isInvalid?: boolean;
-  invalidReason?: string;
+interface Props<T extends FieldValues>
+  extends UseControllerProps<T>,
+    Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "defaultValue"> {
+  label: string | ReactNode;
+  error?: FieldError;
 }
 
-const Input: FC<InputProps> = ({
-  id,
+const ControlTextInput = <T extends FieldValues>({
   name,
-  type,
-  invalidReason,
-  defaultValue,
-  isInvalid,
-  labelContent,
-  placeHolder,
-  showError,
-}) => {
-  const showErrorMessage = showError && isInvalid && invalidReason;
+  label,
+  control,
+  error,
+  ...rest
+}: Props<T>) => {
   return (
-    <>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
-        {labelContent}
-      </label>
-      <div className="relative mt-2 rounded-md shadow-sm">
-        <input
-          type={type}
-          name={name}
-          id={id}
-          className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-          placeholder={placeHolder}
-          defaultValue={defaultValue}
-          aria-invalid={isInvalid}
-        />
-        {showError && isInvalid ? (
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ExclamationCircleIcon
-              className="h-5 w-5 text-red-500"
-              aria-hidden="true"
-            />
-          </div>
-        ) : null}
-      </div>
-
-      {showErrorMessage ? (
-        <p className="mt-2 text-sm text-red-600" id={`${id}-error`}>
-          {invalidReason}
-        </p>
-      ) : null}
-    </>
+    <Controller
+      name={name}
+      control={control}
+      rules={{
+        required: "This is required",
+      }}
+      render={({ field: { onChange } }) => (
+        <>
+          <label
+            htmlFor={name}
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            {label}
+          </label>
+          <input
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            onChange={onChange}
+            {...rest}
+          />
+          {error && <span style={{ color: "red" }}>{error?.message}</span>}
+        </>
+      )}
+    />
   );
 };
 
-export default Input;
+export default ControlTextInput;
