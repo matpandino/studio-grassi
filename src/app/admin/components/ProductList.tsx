@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import React from "react";
+import ProductItem from "./ProductItem";
 
 const ProductList = async () => {
   const products = await prisma.product.findMany();
@@ -7,7 +8,7 @@ const ProductList = async () => {
   return (
     <ol>
       {products.map((product) => (
-        <li key={product.id}>{product.name}</li>
+        <ProductItem key={product.id} product={product} />
       ))}
     </ol>
   );
