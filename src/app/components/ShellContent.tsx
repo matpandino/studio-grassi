@@ -7,7 +7,7 @@ interface ShellContentProps {
 const ShellContent: FC<ShellContentProps> = ({ children }) => {
   return (
     <main className="flex w-full justify-center mt-10">
-      <div className="md:max-w-5xl md:flex-1">{children}</div>
+      <div className="md:max-w-5xl flex-1 p-6">{children}</div>
     </main>
   );
 };
