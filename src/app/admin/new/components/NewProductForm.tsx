@@ -13,12 +13,12 @@ const formSchema = z.object({
   description: z.string().min(1, "Name is required").max(500),
   price: z.string().nullish(),
   quantity: z.string().nullish(),
-  // images: z.array(
-  //   z.object({
-  //     fileKey: z.string(),
-  //     fileUrl: z.string(),
-  //   })
-  // ),
+  images: z.array(
+    z.object({
+      fileKey: z.string(),
+      fileUrl: z.string(),
+    })
+  ),
 });
 
 export type ProductFormType = z.infer<typeof formSchema>;
@@ -111,7 +111,8 @@ export default function NewProductForm() {
               <UploadButton<OurFileRouter>
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
-                  if (res?.length) setValue(`images.${images?.length || 0}`, res[0]);
+                  if (res?.length)
+                    setValue(`images.${images?.length || 0}`, res[0]);
                 }}
                 onUploadError={(error: Error) => {
                   alert(`ERROR! ${error.message}`);
