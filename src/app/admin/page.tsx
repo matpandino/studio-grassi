@@ -8,7 +8,6 @@ const page = () => {
     <ShellContent>
       <Link href="/admin/new">New Product</Link>
 
-      <div>page</div>
       <Suspense fallback="loading">
         <ProductList />
       </Suspense>
