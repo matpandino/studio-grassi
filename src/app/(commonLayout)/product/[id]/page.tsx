@@ -1,6 +1,5 @@
-import { Product } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import ImageGallery from "@/app/(commonLayout)/components/products/ImageGallery";
+import { prisma } from "@/lib/prisma";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 
@@ -8,18 +7,18 @@ interface ProductPageParams {
   params: { id: string };
 }
 
-export async function generateStaticParams({ params }: ProductPageParams) {
+export async function generateStaticParams() {
   const products = await prisma.product.findMany();
 
   return products.map((product) => ({
-    id: String(product.id),
+    id: product.id,
   }));
 }
 
 export default async function Product({ params }: ProductPageParams) {
-  const product = await prisma.product.findFirst({
+  const product = await prisma.product.findUnique({
     where: {
-      id: Number(params.id),
+      id: params.id,
     },
   });
 
