@@ -1,17 +1,18 @@
-import { Suspense } from "react";
-import ProductList from "./components/ProductList";
 import Link from "next/link";
+import { Suspense } from "react";
+import ShellContent from "../components/ShellContent";
+import ProductList from "./components/ProductList";
 
 const page = () => {
   return (
-    <div>
+    <ShellContent>
       <Link href="/admin/new">New Product</Link>
 
       <div>page</div>
       <Suspense fallback="loading">
         <ProductList />
       </Suspense>
-    </div>
+    </ShellContent>
   );
 };
 

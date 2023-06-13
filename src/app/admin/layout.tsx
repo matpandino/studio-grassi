@@ -1,7 +1,7 @@
-import Header from "../components/header";
-import "../globals.css";
-import { Inter } from "next/font/google";
 import { ClerkProvider, SignOutButton } from "@clerk/nextjs";
+import { Inter } from "next/font/google";
+import Header from "../components/Header";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
