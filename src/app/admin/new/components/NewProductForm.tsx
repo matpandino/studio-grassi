@@ -1,17 +1,24 @@
 "use client";
+import { Input } from "@/components/Inputs";
 
-import { Price, Input, TextArea } from "@/components/Inputs";
-
-import { z } from "zod";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UploadButton } from "@uploadthing/react";
 import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   description: z.string().min(1, "Name is required").max(500),
   price: z.string().nullish(),
   quantity: z.string().nullish(),
+  // images: z.array(
+  //   z.object({
+  //     fileKey: z.string(),
+  //     fileUrl: z.string(),
+  //   })
+  // ),
 });
 
 export type ProductFormType = z.infer<typeof formSchema>;
@@ -21,11 +28,15 @@ export default function NewProductForm() {
 
   const {
     control,
+    setValue,
+    watch,
     formState: { errors },
     handleSubmit,
   } = useForm<ProductFormType>({
     resolver: zodResolver(formSchema),
   });
+
+  const images = watch("images");
 
   const onSubmit: SubmitHandler<ProductFormType> = async (data) => {
     try {
@@ -95,6 +106,22 @@ export default function NewProductForm() {
                 error={errors.quantity}
               />
             </div>
+
+            <div className="col-span-full">
+              <UploadButton<OurFileRouter>
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  if (res?.length) setValue(`images.${images?.length || 0}`, res[0]);
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+            </div>
+
+            {images?.map((image) => (
+              <img key={image.fileKey} src={image.fileUrl} alt="product" />
+            ))}
           </div>
         </div>
       </div>
