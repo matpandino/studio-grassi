@@ -1,11 +1,15 @@
 "use client";
 
-import { FC } from "react";
-import { Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { FC } from "react";
+
+type ProductWithImages = Prisma.ProductGetPayload<{
+  include: { images: true };
+}>;
 
 interface ProductItemProps {
-  product: Product;
+  product: ProductWithImages;
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
@@ -13,7 +17,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     <div className="group relative">
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
         <img
-          src="https://tailwindui.com/img/ecommerce-images/home-page-04-trending-product-03.jpg"
+          src={product.images[0]?.fileUrl ||  "https://tailwindui.com/img/ecommerce-images/home-page-04-trending-product-03.jpg"}
           alt={product.name}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />

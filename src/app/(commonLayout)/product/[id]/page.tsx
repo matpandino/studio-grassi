@@ -8,7 +8,11 @@ interface ProductPageParams {
 }
 
 export async function generateStaticParams() {
-  const products = await prisma.product.findMany();
+  const products = await prisma.product.findMany({
+    select: {
+      id: true,
+    },
+  });
 
   return products.map((product) => ({
     id: product.id,
@@ -20,13 +24,12 @@ export default async function Product({ params }: ProductPageParams) {
     where: {
       id: params.id,
     },
+    include: { images: true },
   });
 
   if (!product) return notFound();
 
-  const productImages = [
-    "https://tailwindui.com/img/ecommerce-images/home-page-04-trending-product-03.jpg",
-  ];
+  const productImages = product.images.map((image) => image.fileUrl);
 
   return (
     <div className="bg-white">
