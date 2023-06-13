@@ -8,7 +8,7 @@ export async function DELETE(
   try {
     await prisma.product.delete({
       where: {
-        id: Number(id),
+        id,
       },
     });
     

@@ -27,7 +27,7 @@ model Image {
   fileKey   String
   fileUrl   String
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
