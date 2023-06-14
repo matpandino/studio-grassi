@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FC } from "react";
 
 type ProductWithImages = Prisma.ProductGetPayload<{
-  include: { images: true };
+  include: { skus: { include: { images: true } } };
 }>;
 
 interface ProductItemProps {
@@ -17,7 +17,10 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     <div className="group relative">
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
         <img
-          src={product.images[0]?.fileUrl ||  "https://tailwindui.com/img/ecommerce-images/home-page-04-trending-product-03.jpg"}
+          src={
+            product.skus[0]?.images[0]?.fileUrl ||
+            "https://tailwindui.com/img/ecommerce-images/home-page-04-trending-product-03.jpg"
+          }
           alt={product.name}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
@@ -32,7 +35,9 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
           </h3>
           <p className="mt-1 text-sm text-gray-500">white</p>
         </div>
-        <p className="text-sm font-medium text-gray-900">{product.price}</p>
+        <p className="text-sm font-medium text-gray-900">
+          {product.skus[0].price}
+        </p>
       </div>
     </div>
   );

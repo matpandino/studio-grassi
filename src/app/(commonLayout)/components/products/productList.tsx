@@ -2,7 +2,9 @@ import { prisma } from "@/lib/prisma";
 import ProductItem from "./productItem";
 
 const ProductList = async () => {
-  const products = await prisma.product.findMany({ include: { images: true } });
+  const products = await prisma.product.findMany({
+    include: { skus: { include: { images: true } } },
+  });
 
   return (
     <div className="flex flex-col items-center justify-between p-24">

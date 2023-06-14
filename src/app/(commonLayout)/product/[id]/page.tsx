@@ -24,12 +24,22 @@ export default async function Product({ params }: ProductPageParams) {
     where: {
       id: params.id,
     },
-    include: { images: true },
+    include: {
+      skus: {
+        include: {
+          images: true,
+        },
+      },
+    },
   });
+
+  const defaultSku = product?.skus[0];
 
   if (!product) return notFound();
 
-  const productImages = product.images.map((image) => image.fileUrl);
+  const productImages = defaultSku
+    ? defaultSku.images.map((image) => image.fileUrl)
+    : [];
 
   return (
     <div className="bg-white">
@@ -43,19 +53,21 @@ export default async function Product({ params }: ProductPageParams) {
               {product.name}
             </h1>
 
-            <div className="mt-3">
-              <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-gray-900">
-                {product.price}
-              </p>
-            </div>
+            {defaultSku?.price ? (
+              <div className="mt-3">
+                <h2 className="sr-only">Product information</h2>
+                <p className="text-3xl tracking-tight text-gray-900">
+                  {defaultSku?.price}
+                </p>
+              </div>
+            ) : null}
 
             <div className="mt-6">
               <h3 className="sr-only">{product.description}</h3>
 
               <div
                 className="space-y-6 text-base text-gray-700"
-                dangerouslySetInnerHTML={{ __html: product.description }}
+                dangerouslySetInnerHTML={{ __html: product.description || '' }}
               />
             </div>
 

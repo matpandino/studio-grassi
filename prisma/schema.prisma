@@ -12,22 +12,78 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
-  price       Float
-  quantity    Int
-  description String   @default("")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  images      Image[]
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  options     Option[]
+  skus        ProductSku[]
+  categories   ProductCategory[]
+}
+
+model ProductCategory {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
+}
+
+model Option {
+  id           String        @id @default(uuid())
+  productId    String
+  optionName   String
+  product      Product       @relation(fields: [productId], references: [id])
+  optionValues OptionValue[]
+  productSkus  SkuValue[]
+
+  @@unique([productId, id])
+  @@index([productId])
+}
+
+model OptionValue {
+  productId String
+  optionId  String
+  valueId   String @default(uuid())
+  valueName String
+  option    Option @relation(fields: [productId, optionId], references: [productId, id])
+
+  @@id([productId, optionId, valueId])
+  @@index([productId, optionId])
+}
+
+model ProductSku {
+  id            String     @unique @default(uuid())
+  productId     String
+  sku           String
+  price         Int?
+  stockQuantity Int?
+  skuValues     SkuValue[]
+  images        Image[]
+  product       Product    @relation(fields: [productId], references: [id])
+
+  @@index([productId])
 }
 
 model Image {
-  id        String  @id @default(uuid())
-  fileKey   String
-  fileUrl   String
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id           String     @id @default(uuid())
+  fileKey      String
+  fileUrl      String
+  productSkuId String
+  productSku   ProductSku @relation(fields: [productSkuId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
 
-  @@index([productId])
+  @@index([productSkuId])
+}
+
+model SkuValue {
+  productId String
+  skuId     String
+  optionId  String
+  product   ProductSku @relation(fields: [skuId], references: [id])
+  option    Option     @relation(fields: [productId, optionId], references: [productId, id])
+
+  @@id([productId, skuId, optionId])
+  @@index([productId, optionId])
+  @@index([productId, skuId])
+  @@index([skuId])
 }
