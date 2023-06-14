@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import ProductItem from "./productItem";
+import ProductItem from "./ProductItem";
 
 const ProductList = async () => {
   const products = await prisma.product.findMany({
