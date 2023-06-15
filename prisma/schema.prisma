@@ -30,7 +30,7 @@ model Option {
   id           String        @id @default(uuid())
   productId    String
   optionName   String
-  product      Product       @relation(fields: [productId], references: [id])
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   optionValues OptionValue[]
   SkuValue     SkuValue[]
 
@@ -43,7 +43,7 @@ model OptionValue {
   productId String
   optionId  String
   valueName String
-  option    Option     @relation(fields: [productId, optionId], references: [productId, id])
+  option    Option     @relation(fields: [productId, optionId], references: [productId, id], onDelete: Cascade)
   SkuValue  SkuValue[]
 
   @@index([productId, optionId])
@@ -58,7 +58,7 @@ model ProductSku {
   stockQuantity Int?
   skuValues     SkuValue[]
   images        Image[]
-  product       Product    @relation(fields: [productId], references: [id])
+  product       Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
@@ -68,7 +68,7 @@ model Image {
   fileKey      String
   fileUrl      String
   productSkuId String
-  productSku   ProductSku @relation(fields: [productSkuId], references: [id])
+  productSku   ProductSku @relation(fields: [productSkuId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())
 
   @@index([productSkuId])
@@ -79,9 +79,9 @@ model SkuValue {
   skuId         String
   optionId      String
   optionValueId String
-  productSku    ProductSku  @relation(fields: [skuId], references: [id])
+  productSku    ProductSku  @relation(fields: [skuId], references: [id], onDelete: Cascade)
   option        Option      @relation(fields: [optionId], references: [id])
-  optionValue   OptionValue @relation(fields: [optionValueId], references: [id])
+  optionValue   OptionValue @relation(fields: [optionValueId], references: [id], onDelete: Cascade)
 
   @@index([optionId])
   @@index([skuId])
