@@ -13,17 +13,21 @@ model Product {
   name        String
   description String?
   slug        String            @unique
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  images      Attachment[]
   options     Option[]
   skus        ProductSku[]
   categories  ProductCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductCategory {
-  id       String    @id @default(uuid())
-  name     String
-  products Product[]
+  id        String    @id @default(uuid())
+  name      String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Option {
@@ -33,6 +37,8 @@ model Option {
   product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   optionValues OptionValue[]
   SkuValue     SkuValue[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@unique([productId, id])
   @@index([productId])
@@ -45,33 +51,41 @@ model OptionValue {
   valueName String
   option    Option     @relation(fields: [productId, optionId], references: [productId, id], onDelete: Cascade)
   SkuValue  SkuValue[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([productId, optionId])
 }
 
 model ProductSku {
-  id            String     @unique @default(uuid())
+  id            String       @unique @default(uuid())
   productId     String
-  sku           String     @unique
+  sku           String       @unique
   details       String?
   price         Int?
   stockQuantity Int?
   skuValues     SkuValue[]
-  images        Image[]
-  product       Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  images        Attachment[]
+  product       Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   @@index([productId])
 }
 
-model Image {
-  id           String     @id @default(uuid())
+model Attachment {
+  id           String      @id @default(uuid())
   fileKey      String
   fileUrl      String
-  productSkuId String
-  productSku   ProductSku @relation(fields: [productSkuId], references: [id], onDelete: Cascade)
-  createdAt    DateTime   @default(now())
+  productSkuId String?
+  productId    String?
+  productSku   ProductSku? @relation(fields: [productSkuId], references: [id], onDelete: SetNull)
+  Product      Product?    @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([productSkuId])
+  @@index([productId])
 }
 
 model SkuValue {

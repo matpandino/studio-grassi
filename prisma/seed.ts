@@ -4,10 +4,16 @@ const prisma = new PrismaClient();
 
 const productData = [
   {
-    name: "x 221",
+    name: "Product 1",
     description: "This is product 1",
-    slug: "produxact-1",
-    categories: [{ name: "Cate32gory 1" }, { name: "Cat233egory 2" }],
+    slug: "product-1",
+    images: [
+      {
+        fileKey: "image-main-1",
+        fileUrl: "https://picsum.photos/200/300",
+      },
+    ],
+    categories: [{ name: "Category 1" }, { name: "Category 2" }],
     options: [
       {
         optionName: "Option 1",
@@ -20,7 +26,7 @@ const productData = [
     ],
     skus: [
       {
-        sku: "SKUasdas-1",
+        sku: "SKU-1",
         details: "SKU 1 details",
         price: 10,
         stockQuantity: 100,
@@ -38,7 +44,7 @@ const productData = [
         ],
       },
       {
-        sku: "SsadasKU-2",
+        sku: "SKU-2",
         details: "SKU 2 details",
         price: 15,
         stockQuantity: 50,
@@ -66,6 +72,9 @@ async function seed() {
     const createdProduct = await prisma.product.create({
       data: {
         ...productInfo,
+        images: {
+          create: productInfo.images,
+        },
         categories: {
           create: categories,
         },
