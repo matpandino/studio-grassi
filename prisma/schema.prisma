@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,14 +9,15 @@ datasource db {
 }
 
 model Product {
-  id          String       @id @default(uuid())
+  id          String            @id @default(uuid())
   name        String
   description String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  slug        String            @unique
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   options     Option[]
   skus        ProductSku[]
-  categories   ProductCategory[]
+  categories  ProductCategory[]
 }
 
 model ProductCategory {
@@ -34,27 +32,28 @@ model Option {
   optionName   String
   product      Product       @relation(fields: [productId], references: [id])
   optionValues OptionValue[]
-  productSkus  SkuValue[]
+  SkuValue     SkuValue[]
 
   @@unique([productId, id])
   @@index([productId])
 }
 
 model OptionValue {
+  id        String     @id @default(uuid())
   productId String
   optionId  String
-  valueId   String @default(uuid())
   valueName String
-  option    Option @relation(fields: [productId, optionId], references: [productId, id])
+  option    Option     @relation(fields: [productId, optionId], references: [productId, id])
+  SkuValue  SkuValue[]
 
-  @@id([productId, optionId, valueId])
   @@index([productId, optionId])
 }
 
 model ProductSku {
   id            String     @unique @default(uuid())
   productId     String
-  sku           String
+  sku           String     @unique
+  details       String?
   price         Int?
   stockQuantity Int?
   skuValues     SkuValue[]
@@ -69,21 +68,22 @@ model Image {
   fileKey      String
   fileUrl      String
   productSkuId String
-  productSku   ProductSku @relation(fields: [productSkuId], references: [id], onDelete: Cascade)
+  productSku   ProductSku @relation(fields: [productSkuId], references: [id])
   createdAt    DateTime   @default(now())
 
   @@index([productSkuId])
 }
 
 model SkuValue {
-  productId String
-  skuId     String
-  optionId  String
-  product   ProductSku @relation(fields: [skuId], references: [id])
-  option    Option     @relation(fields: [productId, optionId], references: [productId, id])
+  id            String      @id @default(uuid())
+  skuId         String
+  optionId      String
+  optionValueId String
+  productSku    ProductSku  @relation(fields: [skuId], references: [id])
+  option        Option      @relation(fields: [optionId], references: [id])
+  optionValue   OptionValue @relation(fields: [optionValueId], references: [id])
 
-  @@id([productId, skuId, optionId])
-  @@index([productId, optionId])
-  @@index([productId, skuId])
+  @@index([optionId])
   @@index([skuId])
+  @@index([optionValueId])
 }
