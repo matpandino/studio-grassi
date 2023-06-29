@@ -10,6 +10,7 @@ export interface CreateProductDTO {
   name: string
   description?: string
   quantity: number
+  slug: string
   price: number
   images: CreateImageDTO[]
 }
