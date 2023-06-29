@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
-import React from "react";
-import ProductItem from "./ProductItem";
+import { prisma } from '@/lib/prisma'
+import React from 'react'
+import ProductItem from './ProductItem'
 
 const ProductList = async () => {
-  const products = await prisma.product.findMany();
+  const products = await prisma.product.findMany()
 
   return (
     <ol>
@@ -11,7 +11,7 @@ const ProductList = async () => {
         <ProductItem key={product.id} product={product} />
       ))}
     </ol>
-  );
-};
+  )
+}
 
-export default ProductList;
+export default ProductList

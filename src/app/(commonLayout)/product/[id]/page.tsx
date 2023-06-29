@@ -1,10 +1,10 @@
-import ImageGallery from "@/app/(commonLayout)/components/products/ImageGallery";
-import { prisma } from "@/lib/prisma";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { notFound } from "next/navigation";
+import ImageGallery from '@/app/(commonLayout)/components/products/ImageGallery'
+import { prisma } from '@/lib/prisma'
+import { HeartIcon } from '@heroicons/react/24/outline'
+import { notFound } from 'next/navigation'
 
 interface ProductPageParams {
-  params: { id: string };
+  params: { id: string }
 }
 
 export async function generateStaticParams() {
@@ -12,11 +12,11 @@ export async function generateStaticParams() {
     select: {
       id: true,
     },
-  });
+  })
 
   return products.map((product) => ({
     id: product.id,
-  }));
+  }))
 }
 
 export default async function Product({ params }: ProductPageParams) {
@@ -31,15 +31,15 @@ export default async function Product({ params }: ProductPageParams) {
         },
       },
     },
-  });
+  })
 
-  const defaultSku = product?.skus[0];
+  const defaultSku = product?.skus[0]
 
-  if (!product) return notFound();
+  if (!product) return notFound()
 
   const productImages = defaultSku
     ? defaultSku.images.map((image) => image.fileUrl)
-    : [];
+    : []
 
   return (
     <div className="bg-white">
@@ -103,5 +103,5 @@ export default async function Product({ params }: ProductPageParams) {
         </div>
       </div>
     </div>
-  );
+  )
 }

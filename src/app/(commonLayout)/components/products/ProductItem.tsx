@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import { Prisma } from "@prisma/client";
-import Link from "next/link";
-import { FC } from "react";
+import { Prisma } from '@prisma/client'
+import Link from 'next/link'
+import { FC } from 'react'
 
 type ProductWithImages = Prisma.ProductGetPayload<{
-  include: { skus: { include: { images: true } } };
-}>;
+  include: { skus: { include: { images: true } } }
+}>
 
 interface ProductItemProps {
-  product: ProductWithImages;
+  product: ProductWithImages
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
-  const productFirstSku = product.skus?.[0] || null;
+  const productFirstSku = product.skus?.[0] || null
 
-  if (!productFirstSku) return null;
+  if (!productFirstSku) return null
 
   return (
     <div className="group relative">
@@ -23,7 +23,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
         <img
           src={
             product.skus[0]?.images[0]?.fileUrl ||
-            "https://picsum.photos/200/300"
+            'https://picsum.photos/200/300'
           }
           alt={product.name}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
@@ -44,7 +44,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductItem;
+export default ProductItem

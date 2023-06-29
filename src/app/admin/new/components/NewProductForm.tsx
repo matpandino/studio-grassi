@@ -1,30 +1,30 @@
-"use client";
-import { Input } from "@/components/Inputs";
+'use client'
+import { Input } from '@/components/Inputs'
 
-import { OurFileRouter } from "@/app/api/uploadthing/core";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UploadButton } from "@uploadthing/react";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { OurFileRouter } from '@/app/api/uploadthing/core'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { UploadButton } from '@uploadthing/react'
+import { useRouter } from 'next/navigation'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  description: z.string().min(1, "Name is required").max(500),
+  name: z.string().min(1, 'Name is required').max(100),
+  description: z.string().min(1, 'Name is required').max(500),
   price: z.string().nullish(),
   quantity: z.string().nullish(),
   images: z.array(
     z.object({
       fileKey: z.string(),
       fileUrl: z.string(),
-    })
+    }),
   ),
-});
+})
 
-export type ProductFormType = z.infer<typeof formSchema>;
+export type ProductFormType = z.infer<typeof formSchema>
 
 export default function NewProductForm() {
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     control,
@@ -34,26 +34,26 @@ export default function NewProductForm() {
     handleSubmit,
   } = useForm<ProductFormType>({
     resolver: zodResolver(formSchema),
-  });
+  })
 
-  const images = watch("images");
+  const images = watch('images')
 
   const onSubmit: SubmitHandler<ProductFormType> = async (data) => {
     try {
-      await fetch("/api/products", {
-        method: "POST",
+      await fetch('/api/products', {
+        method: 'POST',
         body: JSON.stringify({
           ...data,
           price: data.price ? parseInt(data.price) : 0,
           quantity: data.quantity ? parseInt(data.quantity) : 0,
         }),
-      });
+      })
 
-      router.push("/admin");
+      router.push('/admin')
     } catch (e) {
-      console.log("error ", e);
+      console.log('error ', e)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -112,10 +112,10 @@ export default function NewProductForm() {
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
                   if (res?.length)
-                    setValue(`images.${images?.length || 0}`, res[0]);
+                    setValue(`images.${images?.length || 0}`, res[0])
                 }}
                 onUploadError={(error: Error) => {
-                  alert(`ERROR! ${error.message}`);
+                  alert(`ERROR! ${error.message}`)
                 }}
               />
             </div>
@@ -142,5 +142,5 @@ export default function NewProductForm() {
         </button>
       </div>
     </form>
-  );
+  )
 }

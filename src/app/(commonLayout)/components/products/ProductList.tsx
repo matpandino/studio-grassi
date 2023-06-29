@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import ProductItem from "./ProductItem";
+import { prisma } from '@/lib/prisma'
+import ProductItem from './ProductItem'
 
 const ProductList = async () => {
   const products = await prisma.product.findMany({
     include: { skus: { include: { images: true } } },
-  });
+  })
 
   return (
     <div className="flex flex-col items-center justify-between p-24">
@@ -20,7 +20,7 @@ const ProductList = async () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductList;
+export default ProductList

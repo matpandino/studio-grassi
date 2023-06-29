@@ -1,5 +1,5 @@
-import ProductList from "./components/products/ProductList";
-import { Suspense } from "react";
+import { Suspense } from 'react'
+import ProductList from './components/products/ProductList'
 
 export default function Home() {
   return (
@@ -8,5 +8,5 @@ export default function Home() {
         <ProductList />
       </Suspense>
     </main>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import { FC } from "react";
-import { Tab } from "@headlessui/react";
+import { FC } from 'react'
+import { Tab } from '@headlessui/react'
 
 interface ImageGalleryProps {
-  images: string[];
+  images: string[]
 }
 
 function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ')
 }
 
 const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
@@ -34,8 +34,8 @@ const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
                   </span>
                   <span
                     className={classNames(
-                      selected ? "ring-indigo-500" : "ring-transparent",
-                      "pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2"
+                      selected ? 'ring-indigo-500' : 'ring-transparent',
+                      'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2',
                     )}
                     aria-hidden="true"
                   />
@@ -58,7 +58,7 @@ const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
         ))}
       </Tab.Panels>
     </Tab.Group>
-  );
-};
+  )
+}
 
-export default ImageGallery;
+export default ImageGallery

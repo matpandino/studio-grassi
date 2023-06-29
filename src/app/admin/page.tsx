@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { Suspense } from "react";
-import ShellContent from "../components/ShellContent";
-import ProductList from "./components/ProductList";
+import Link from 'next/link'
+import { Suspense } from 'react'
+import ShellContent from '../components/ShellContent'
+import ProductList from './components/ProductList'
 
 const page = () => {
   return (
@@ -12,7 +12,7 @@ const page = () => {
         <ProductList />
       </Suspense>
     </ShellContent>
-  );
-};
+  )
+}
 
-export default page;
+export default page

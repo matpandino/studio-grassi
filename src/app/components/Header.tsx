@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import { FC, ReactElement, useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import { FC, ReactElement, useState } from 'react'
+import { Dialog } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 const navigation = [
-  { name: "Tattoo", href: "#" },
-  { name: "Piercing / Joias", href: "#" },
-  { name: "Admin", href: "/admin" },
-];
+  { name: 'Tattoo', href: '#' },
+  { name: 'Piercing / Joias', href: '#' },
+  { name: 'Admin', href: '/admin' },
+]
 
 interface HeaderProps {
-  rightElement: ReactElement | string;
+  rightElement: ReactElement | string
 }
 
 const Header: FC<HeaderProps> = ({ rightElement }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="bg-white">
@@ -55,9 +55,7 @@ const Header: FC<HeaderProps> = ({ rightElement }) => {
             alt=""
           />
         </Link>
-        <div className="flex flex-1 justify-end">
-          {rightElement}
-        </div>
+        <div className="flex flex-1 justify-end">{rightElement}</div>
       </nav>
       <Dialog
         as="div"
@@ -109,7 +107,7 @@ const Header: FC<HeaderProps> = ({ rightElement }) => {
         </Dialog.Panel>
       </Dialog>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

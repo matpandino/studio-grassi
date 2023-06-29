@@ -1,21 +1,21 @@
-import { ClerkProvider, SignOutButton } from "@clerk/nextjs";
-import "@uploadthing/react/styles.css";
-import { Inter } from "next/font/google";
-import Header from "../components/Header";
+import { ClerkProvider, SignOutButton } from '@clerk/nextjs'
+import '@uploadthing/react/styles.css'
+import { Inter } from 'next/font/google'
+import Header from '../components/Header'
 
-import "../globals.css";
+import '../globals.css'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Estúdio Grassi",
-  description: "Estúdio de Bodypiercing e tatoo",
-};
+  title: 'Estúdio Grassi',
+  description: 'Estúdio de Bodypiercing e tatoo',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <ClerkProvider>
@@ -26,5 +26,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }

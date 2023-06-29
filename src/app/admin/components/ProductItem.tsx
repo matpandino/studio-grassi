@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import { TrashIcon } from "@heroicons/react/24/outline";
-import { Product } from "@prisma/client";
-import { FC } from "react";
-import { useRouter } from "next/navigation";
+import { TrashIcon } from '@heroicons/react/24/outline'
+import { Product } from '@prisma/client'
+import { FC } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface ProductItemProps {
-  product: Product;
+  product: Product
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const deleteProduct = async () => {
     await fetch(`/api/products/${product.id}`, {
-      method: "DELETE",
-    });
-    router.refresh();
-  };
+      method: 'DELETE',
+    })
+    router.refresh()
+  }
 
   return (
     <li className="flex gap-2">
@@ -26,7 +26,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
         <TrashIcon color="red" />
       </button>
     </li>
-  );
-};
+  )
+}
 
-export default ProductItem;
+export default ProductItem
